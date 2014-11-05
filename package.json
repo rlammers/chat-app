@@ -5,6 +5,7 @@
   "dependencies": {
     "express": "4.8.8",
     "jade": "*",
+    "sanitizer": "^0.1.2",
     "socket.io": "*"
   },
   "devDependencies": {

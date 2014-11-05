@@ -28,7 +28,8 @@ function setPseudo() {
 }
 
 socket.on('message', function(data) {
-	addMessage(data.message, data.pseudo);
+	var safer_pseudo = html_sanitize(data.pseudo);
+	addMessage(data.message, safer_pseudo);
 });
 
 $(function() {

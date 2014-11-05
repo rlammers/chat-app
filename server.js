@@ -4,6 +4,7 @@ var app = express();
 var http = require('http');
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
+var sanitizer = require('sanitizer');
 
 var listen_port = 8080;
 
@@ -25,10 +26,12 @@ console.log("Server listening on port " + listen_port);
 // Connect to socket, set pseudo
 io.sockets.on('connection', function (socket) {
 	socket.on('setPseudo', function (data) {
+		data = sanitizer.sanitize(data);
 		socket.set('pseudo', data);
 	});
 	// Add the message event
 	socket.on('message', function (message) {
+		message = sanitizer.sanitize(message);
 		socket.get('pseudo', function (error, name) {
 			var data = {'message' : message, pseudo : name};
 			socket.broadcast.emit('message', data);
