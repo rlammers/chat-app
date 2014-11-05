@@ -10,8 +10,7 @@ function addMessage(msg, pseudo) {
 function sentMessage() {
 	if ($('#messageInput').val() !== "")
 	{
-		var esc_msg = $('#messageInput').val();
-		//TODO: Escape XSS here
+		var esc_msg = html_sanitize($('#messageInput').val());
 		socket.emit('message', esc_msg);
 		addMessage(esc_msg, "Me", new Date().toISOString(), true);
 		$('#messageInput').val('');
