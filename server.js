@@ -24,19 +24,19 @@ server.listen(listen_port);
 console.log("Server listening on port " + listen_port);
 
 // Connect to socket, set pseudo
-io.sockets.on('connection', function (socket) {
-	socket.on('setPseudo', function (data) {
+io.on('connection', function (socket) {
+	socket.on('setPseudo', function setUsername (data) {
 		data = sanitizer.sanitize(data);
 		socket.set('pseudo', data);
 	});
 	// Add the message event
 	socket.on('message', function (message) {
-		message = sanitizer.sanitize(message);
-		socket.get('pseudo', function (error, name) {
-			var data = {'message' : message, pseudo : name};
-			socket.broadcast.emit('message', data);
-			console.log("user " + name + " sent this : " + message);
-		});
+	message = sanitizer.sanitize(message);
+	socket.get('pseudo', function sendMessageToClients (error, name) {
+		var data = {'message' : message, pseudo : name};
+		socket.broadcast.emit('message', data);
+		console.log("user " + name + " sent this : " + message);
 	});
+});
 });
 
