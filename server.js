@@ -14,7 +14,7 @@ app.set('view engine', 'jade');
 app.set("view options", { layout: false});
 
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/src'));
 
 // Configure express to serve home.jade and listen to port
 app.get('/', function(req, res){
@@ -23,20 +23,20 @@ app.get('/', function(req, res){
 server.listen(listen_port);
 console.log("Server listening on port " + listen_port);
 
-// Connect to socket, set pseudo
 io.on('connection', function (socket) {
-	socket.on('setPseudo', function setUsername (data) {
+
+	socket.on('setPseudo', function (data) {
 		data = sanitizer.sanitize(data);
 		socket.set('pseudo', data);
 	});
-	// Add the message event
+
 	socket.on('message', function (message) {
-	message = sanitizer.sanitize(message);
-	socket.get('pseudo', function sendMessageToClients (error, name) {
-		var data = {'message' : message, pseudo : name};
-		socket.broadcast.emit('message', data);
-		console.log("user " + name + " sent this : " + message);
+		message = sanitizer.sanitize(message);
+		socket.get('pseudo', function (error, name) {
+			var data = {'message' : message, pseudo : name};
+			socket.broadcast.emit('message', data);
+			console.log("user " + name + " sent this : " + message);
+		});
 	});
-});
 });
 

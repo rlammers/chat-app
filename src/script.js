@@ -3,7 +3,15 @@ var socket = io.connect();
 // Helper functions
 // Add message to the screen with users pseudo
 function addMessage(msg, pseudo) {
-	$("#chatEntries").append('<div class="message"><p>' + pseudo + ' : ' + msg + '</p></div>');
+	$("#chatEntries").append(messageDiv(msg, pseudo));
+}
+
+function messageDiv(msg, pseudo) {
+		return '<div class="message"><p>' +
+		// html_sanitize(pseudo) + ' : ' +
+		// html_sanitize(msg) + '</p></div>';
+		pseudo + ' : ' +
+		msg + '</p></div>';
 }
 
 // Send message
@@ -28,8 +36,7 @@ function setPseudo() {
 }
 
 socket.on('message', function(data) {
-	var safer_pseudo = html_sanitize(data.pseudo);
-	addMessage(data.message, safer_pseudo);
+	addMessage(data.message, data.pseudo);
 });
 
 $(function() {
@@ -37,3 +44,4 @@ $(function() {
 	$("#pseudoSet").click(function () {setPseudo();});
 	$("#submit").click(function() {sentMessage();});
 });
+
