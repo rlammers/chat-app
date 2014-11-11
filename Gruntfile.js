@@ -2,17 +2,22 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		jasmine: {
-			src: ['src/script.js'],
+			src: ['src/**/*.js'],
 			options: {
 				specs: 'spec/**/*.js'
 			}
 		},
 		jshint: {
-			files: ['Gruntfile.js', 'server.js', 'public/**/*.js'],
+			options: {
+				jshintrc: '.jshintrc'
+			},
+			all: ['Gruntfile.js', 'server.js', 'src/**/*.js', 'spec/**/*.js']
 		},
 		watch: {
-			files: ['<%= jshint.files %>'],
-			tasks: ['jshint', 'jasmine']
+			scripts: {
+				files: ['<%= jshint.files %>'],
+				tasks: ['test']
+			}
 		},
 		run: {
 			chat_server: {
