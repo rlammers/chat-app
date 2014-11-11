@@ -1,5 +1,4 @@
 {
-  "undef": true,
   "browser": true,
   "globals": {
     "spyOnEvent": false,

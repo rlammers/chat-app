@@ -13,7 +13,6 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.set("view options", { layout: false});
 
-
 app.use(express.static(__dirname + '/src'));
 
 // Configure express to serve home.jade and listen to port
@@ -24,7 +23,6 @@ server.listen(listen_port);
 console.log("Server listening on port " + listen_port);
 
 io.on('connection', function (socket) {
-
 	socket.on('setPseudo', function (data) {
 		data = sanitizer.sanitize(data);
 		socket.set('pseudo', data);
@@ -39,4 +37,3 @@ io.on('connection', function (socket) {
 		});
 	});
 });
-

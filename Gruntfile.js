@@ -2,7 +2,7 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		jasmine: {
-			src: ['src/**/*.js'],
+			src: ['src/**/*.js', 'server.js'],
 			options: {
 				specs: 'spec/**/*.js'
 			}
@@ -11,11 +11,11 @@ module.exports = function(grunt) {
 			options: {
 				jshintrc: '.jshintrc'
 			},
-			all: ['Gruntfile.js', 'server.js', 'src/**/*.js', 'spec/**/*.js']
+			all: ['src/**/*.js', 'spec/**/*.js']
 		},
 		watch: {
 			scripts: {
-				files: ['<%= jshint.files %>'],
+				files: ['server.js', 'src/**/*.js'],
 				tasks: ['test']
 			}
 		},
