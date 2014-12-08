@@ -4,8 +4,6 @@ var socket = io.connect();
 // Add message to the screen with users pseudo
 function addMessage(msg, pseudo) {
 	$("#chatEntries").append('<div class="message"><p>' +
-		// html_sanitize(pseudo) + ' : ' +
-		// html_sanitize(msg) + '</p></div>';
 	pseudo + ' : ' +
 	msg + '</p></div>');
 }
@@ -14,30 +12,32 @@ function addMessage(msg, pseudo) {
 function sentMessage() {
 	if ($('#messageInput').val() !== "")
 	{
-		var esc_msg = html_sanitize($('#messageInput').val());
-		socket.emit('message', esc_msg);
-		addMessage(esc_msg, "Me", new Date().toISOString(), true);
+		var msg = $('#messageInput').val();
+		socket.emit('message', msg);
+		addMessage(msg, "Me", new Date().toISOString(), true);
 		$('#messageInput').val('');
 	}
 }
 
 function setPseudo() {
-	if ($("#pseudoInput").val() !== "")
+	var username = $("#pseudoInput").val();
+	if (username !== "")
 	{
-		socket.emit('setPseudo', $("#pseudoInput").val());
+		socket.emit('setPseudo', username);
 		$('#chatControls').show();
 		$('#pseudoInput').hide();
 		$('#pseudoSet').hide();
+		displayUsername(username);
 	}
 }
 
 function displayUsername(username) {
-	$("#currentUsername").append('<p>Current username: ' + username + '</p>');
+	$("#currentUsername").empty();
+	$("#currentUsername").append('<p>My username: ' + username + '</p>');
 }
 
 socket.on('message', function(data) {
 	addMessage(data.message, data.pseudo);
-	displayUsername(data.pseudo);
 });
 
 $(function() {

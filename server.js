@@ -31,7 +31,7 @@ io.on('connection', function (socket) {
 	socket.on('message', function (message) {
 		message = sanitizer.sanitize(message);
 		socket.get('pseudo', function (error, name) {
-			var data = {'message' : message, pseudo : name};
+			var data = {'message' : message, 'pseudo' : name};
 			socket.broadcast.emit('message', data);
 			console.log("user " + name + " sent this : " + message);
 		});
