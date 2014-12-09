@@ -40,6 +40,11 @@ socket.on('message', function(data) {
 	addMessage(data.message, data.pseudo);
 });
 
+socket.on('join', function(username) {
+	var msg = username + " has joined the chat";
+	$("#chatEntries").append('<div class="joinmsg"><p>' + msg + '</p></div>');
+});
+
 $(function() {
 	$("#chatControls").hide();
 	$("#pseudoSet").click(function () {setPseudo();});

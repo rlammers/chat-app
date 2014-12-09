@@ -26,6 +26,9 @@ io.on('connection', function (socket) {
 	socket.on('setPseudo', function (data) {
 		data = sanitizer.sanitize(data);
 		socket.set('pseudo', data);
+		// To display user join message
+		socket.broadcast.emit('join', data);
+		console.log("User joined: " + data);
 	});
 
 	socket.on('message', function (message) {
