@@ -1,14 +1,11 @@
 var socket = io.connect();
 
-// Helper functions
-// Add message to the screen with users pseudo
 function addMessage(msg, pseudo) {
 	$("#chatEntries").append('<div class="message"><p>' +
 	pseudo + ' : ' +
 	msg + '</p></div>');
 }
 
-// Send message
 function sentMessage() {
 	if ($('#messageInput').val() !== "")
 	{
