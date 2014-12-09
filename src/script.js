@@ -45,6 +45,11 @@ socket.on('join', function(username) {
 	$("#chatEntries").append('<div class="joinmsg"><p>' + msg + '</p></div>');
 });
 
+socket.on('leave', function(username) {
+	var msg = username + " has left the chat";
+	$("#chatEntries").append('<div class="leavemsg"><p>' + msg + '</p></div>');
+});
+
 $(function() {
 	$("#chatControls").hide();
 	$("#pseudoSet").click(function () {setPseudo();});

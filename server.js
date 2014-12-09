@@ -39,4 +39,11 @@ io.on('connection', function (socket) {
 			console.log("user " + name + " sent this : " + message);
 		});
 	});
+
+	socket.on('disconnect', function () {
+		socket.get('pseudo', function (error, name) {
+			socket.broadcast.emit('leave', name);
+			console.log(name + " has left the chat");
+		});
+	});
 });
