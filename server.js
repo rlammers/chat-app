@@ -8,6 +8,10 @@ var sanitizer = require('sanitizer');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
+var morgan = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var session = require('express-session');
 
 var listen_port = 8080;
 
@@ -39,9 +43,20 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.set("view options", { layout: false });
 
-app.use(express.static(__dirname + '/src'));
+app.use(morgan('combined'));
+app.use(cookieParser());
+app.use(bodyParser.json());
+//app.use(express.methodOverride());
+app.use(session({
+	secret: 'keyboard cat',
+	resave: false,
+	saveUninitialzed: true
+}));
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
+//app.use(app.router);
+app.use(express.static(__dirname + '/src'));
 
 passport.serializeUser(function(user, done) {
   done(null, user.id);
@@ -68,15 +83,15 @@ passport.use(new LocalStrategy(
 
 // Configure express to serve home.jade and listen to port
 app.get('/', function(req, res){
-	res.render('home.jade');
+	res.render('home.jade', { user: req.user });
 });
 
 app.get('/account', ensureAuthenticated, function(req, res) {
-	res.render('account', { user: req.user });
+	res.render('account.jade', { user: req.user });
 });
 
 app.get('/login', function(req, res) {
-	res.render('login', { user: req.user, message: req.flash('error') });
+	res.render('login.jade', { user: req.user, message: req.flash('error') });
 });
 
 app.post('/login',
